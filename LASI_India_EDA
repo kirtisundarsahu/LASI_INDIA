@@ -1,0 +1,93 @@
+#Check and understand working directory
+import os
+import pandas as pd
+import numpy as np
+os.getcwd()
+
+#import data 
+#df = pd.read_stata('3_LASI_W1_Individual_data.dta') #STATA FILE
+df1 = pd.read_csv('Individual_data.csv',encoding='latin1') 
+#view data
+df1.head()
+#list column names
+print(list(df1.columns))
+
+#Subset data by column name#####
+
+df2=df1.filter(regex='dm')
+#select required columns by number 
+df1.iloc[:, [1, 2, 5]]
+#select required columns by name
+df[['width’, 'length’, 'species']]
+#Drop columns from DataFrame
+df.drop(columns=['Length’, 'Height'])
+#select specific rows
+rslt_df = df1.loc[df1['mh021'] <= 1]
+#view data
+df2.head()
+#view variable types
+df2.dtypes
+#convert one typeof variable to others
+df2["dm010"] = df2["dm010"].astype("category")
+#convert typeof variable to others within a selected dataframe
+for c in df2.columns:
+  if df2[c].dtype == 'int64':
+    try:
+        df2[c] = df2[c].astype('category')
+    except:
+        print('Column',' ',c,' cannot be converted to category.')
+df2.dtypes
+#change one value in a row to another value 
+df1['mh021']=np.where(df1['mh021'] =='basic.9y', 'Basic', df1['education'])
+
+#create new column
+df["new"]=df["var1"]+df["var2"]
+
+
+#Missing data handling
+#Ignore
+df1=df1.dropna()
+#fill with certain number
+df1=df1.fillna(0)
+#impute with certain number
+from sklearn.preprocessing import Imputer
+imp = Imputer(missing_values=0, strategy= "mean", axis=0)
+
+#EDA
+#UNIVARIATE DATA ANALYSIS
+#CATEGORICAL DATA
+print(df.columns.values)
+df1['dm010'].unique()
+df1['dm010'].value_counts()
+sns.countplot(x='dm010', data=df1, palette='hls')
+#Continous data
+df1["dm007"].mean()
+df1["dm007"].describe()
+
+#Continous data visualization
+df1.dm007.hist()
+plt.title('Histogram of Age')
+plt.xlabel('Age')
+plt.ylabel('Frequency')
+plt.savefig('hist_age')
+
+#bivariate analysis- cat/cat
+pd.crosstab(df1.dm002,df1.dm003, normalize='index')\
+    .round(4)*100
+#bivariate analysis- cat/cat-visualization
+%matplotlib inline
+pd.crosstab(df1.dm002,df1.dm003).plot(kind='bar')
+plt.title('********')
+plt.xlabel('%%')
+plt.ylabel('SSSSSSSS')
+plt.savefig('@@@@@')
+
+df1["dm007"].groupby(df1["dm005"]).mean()
+
+#bivariate analysis- cont/cont
+corrMatrix = df1.corr()
+print (corrMatrix)
+
+#data visualization-scatter plot- cont/cont 
+df1.plot.scatter(x='dm005',y='dm007')
+
