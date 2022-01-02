@@ -1,0 +1,6 @@
+#principal component analysis 
+from sklearn.decomposition import PCA
+# Make an instance of the Model
+pca = PCA(.95)
+pca.fit(df1)
+
