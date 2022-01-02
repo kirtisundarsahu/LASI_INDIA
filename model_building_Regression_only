@@ -1,0 +1,44 @@
+#multivariate analysis
+#linear regression-cont=cont+cont+cont
+import numpy as np
+from sklearn.linear_model import LinearRegression
+model = LinearRegression()
+model.fit(df1['dm005'], df1['dm005'])
+model = LinearRegression().fit(x, y)
+
+
+#logistic regression pre processing
+cat_vars=["dm001","dm002","dm005","dm006","dm007","dm008","dm009"]
+for var in cat_vars:
+    cat_list='var'+'_'+var
+    cat_list = pd.get_dummies(df2[var], prefix=var)
+    data1=df2.join(cat_list)
+    df2=data1
+#cat_vars=["dm001","dm002"]
+data_vars=df2.columns.values.tolist()
+to_keep=[i for i in data_vars if i not in cat_vars]
+data_final=df2[to_keep]
+data_final.columns.values
+
+#logistic regression option-1
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing
+import matplotlib.pyplot as plt 
+plt.rc("font", size=14)
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+import seaborn as sns
+sns.set(style="white")
+sns.set(style="whitegrid", color_codes=True)
+
+
+#logistic regression option-2
+import statsmodels.api as sm
+logit_model=sm.Logit(df1.dm003,df1.mh201)
+result=logit_model.fit()
+print(result.summary2())
+
+
+
+
