@@ -27,6 +27,7 @@ rslt_df = df1.loc[df1['mh021'] <= 1]
 df2.head()
 #view variable types
 df2.dtypes
+df.dtypes.value_counts() #count no of variables from each type
 #convert one typeof variable to others
 df2["dm010"] = df2["dm010"].astype("category")
 #convert typeof variable to others within a selected dataframe
