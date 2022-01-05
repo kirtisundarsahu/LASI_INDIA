@@ -52,9 +52,35 @@ data_final.isnull().sum()/len(data_final)*100
 df1=df1.dropna()
 #fill with certain number
 df1=df1.fillna(0)
+#impute with median or mode by variable
+train['Item_Weight'].fillna(train['Item_Weight'].median(), inplace=True)
+train['Outlet_Size'].fillna(train['Outlet_Size'].mode()[0], inplace=True)
 #impute with certain number
 from sklearn.preprocessing import Imputer
 imp = Imputer(missing_values=0, strategy= "mean", axis=0)
+
+#filter by proportion of missing data
+
+a=data_final.isnull().sum()/len(data_final)*100
+
+variables = data_final.columns
+newvariable = [ ]
+for i in range(0,12):
+    if a[i]<=20:   #setting the threshold as 20%
+        newvariable.append(variables[i])
+
+#claculate variance of all the varaibles
+df.var()
+
+#filter by variance less than certain point
+
+numeric = train[['Item_Weight', 'Item_Visibility', 'Item_MRP', 'Outlet_Establishment_Year']]
+var = numeric.var()
+numeric = numeric.columns
+variable = [ ]
+for i in range(0,len(var)):
+    if var[i]>=10:   #setting the threshold as 10%
+       variable.append(numeric[i+1])
 
 #EDA
 #UNIVARIATE DATA ANALYSIS
