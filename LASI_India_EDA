@@ -45,6 +45,9 @@ df["new"]=df["var1"]+df["var2"]
 
 
 #Missing data handling
+#calculate number/proportion of missing data by variable
+data_final.isnull().sum()
+data_final.isnull().sum()/len(data_final)*100
 #Ignore
 df1=df1.dropna()
 #fill with certain number
