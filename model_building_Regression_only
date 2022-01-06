@@ -20,6 +20,25 @@ to_keep=[i for i in data_vars if i not in cat_vars]
 data_final=df2[to_keep]
 data_final.columns.values
 
+from numpy import asarray
+from sklearn.preprocessing import OneHotEncoder
+# define data
+data = asarray([['red'], ['green'], ['blue']])
+print(data)
+
+# define one hot encoding
+encoder = OneHotEncoder(sparse=False)
+# transform data
+onehot = encoder.fit_transform(data)
+print(onehot)
+
+# define one hot encoding with dummy
+encoder = OneHotEncoder(drop='first', sparse=False)
+# transform data
+onehotdummy = encoder.fit_transform(data)
+print(onehotdummy)
+
+
 #logistic regression option-1
 import pandas as pd
 import numpy as np
