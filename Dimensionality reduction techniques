@@ -1,0 +1,58 @@
+#prince package is for dimensionality reduction- including pca/fa/ca/mca
+!{sys.executable} -m pip install prince
+import prince
+
+#for pca only continous variables has to be selected 
+df1=df[['dm005','indiaindividualweight']]
+#if any value has to be in pca then change category as numeric 
+df1['dm003'] = df1['dm003'].astype('numeric')
+
+from prince import PCA
+pca = PCA(n_components=2) #by number of components you want-ex- 2 components 
+#pca_result = pca.fit_transform(df1)
+pca.fit(df1)
+ax = pca.plot_row_coordinates(df1, 
+     color_labels=df1['dm005']) #We could try to visualize our two PC as well with additional labels. Let’s try it with the ‘dm005’ feature as the label.
+pca.explained_inertia_ #how much variation this two-dimension explained the original dimension
+
+pca.column_correlations(df1) #to understand corelation between new components and original columns 
+pca.row_contributions(mpg_test).head() #to understand corelation between new components and original columns by each row
+
+
+#Alternate approach using scikit learn
+#principal component analysis 
+from sklearn.decomposition import PCA
+# Make an instance of the Model
+pca = PCA(.95) #95% reduction
+pca.fit(df1)
+
+
+pca = PCA(n_components=4) #by number of components you want-ex- 2 components 
+pca_result = pca.fit_transform(df[feat_cols].values)
+
+
+
+#Multiple correspondence analysis(MCA) is an extension of the CA for more than two categorical features (three or more)  
+#MCA is applicable specific to categorical features. 
+#The idea of MCA is to applying CA into the one-hot encoded version of the dataset
+df1=df[['dm003','dm005','residence','mpce_quintile']]
+from prince import MCA
+mca = MCA(n_components = 2, n_iter = 3, random_state = 101)
+mca.fit(df1)
+tips_mca = mca.transform(df1)
+tips_mca.head()
+mca.plot_coordinates(X = df1)
+mca.explained_inertia_
+
+#Factor Analysis of Mixed Data (FAMD) is a technique dedicated to the Dimensionality Reduction of data set containing both quantitative and qualitative features. 
+#It means FAMD is applied to data with both categorical and numerical features.
+df1=df[['dm003','dm005','residence','mpce_quintile']]
+df1['residence'] = df1['residence'].astype('object')
+df1['dm003'] = df1['dm003'].astype('object')
+
+from prince import FAMD
+famd = FAMD(n_components =2, n_iter = 3, random_state = 101)
+#I leave out df1 as I want the residence feature as the label
+famd.fit(df1.drop('residence', axis =1))
+famd.transform(df1)
+ax = famd.plot_row_coordinates(df1,color_labels=['residence {}'.format(t) for t in df1['residence']] )
