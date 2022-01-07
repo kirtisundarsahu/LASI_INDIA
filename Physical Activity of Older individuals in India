@@ -1,1 +1,16 @@
+import os
+import pandas as pd
+import numpy as np
+os.getcwd()
+df1 = pd.read_stata('C:\Kirti_research\LASI\H_LASI_a2.dta', convert_dates=True, convert_categoricals=True, 
+      index_col='prim_key', convert_missing=False, preserve_dtypes=True, columns=None, 
+      order_categoricals=True, chunksize=None, iterator=False)
 
+df1['r1vgactx'].value_counts() #r1vgactx- frequency of vigorous physical activity
+response: 
+
+5.hardly ever or never          43224
+1.everyday                      17207
+2.more than once a week          5003
+4.one to three times a month     3584
+3.once a week                    2599
