@@ -7,10 +7,32 @@ df1 = pd.read_stata('C:\Kirti_research\LASI\H_LASI_a2.dta', convert_dates=True, 
       order_categoricals=True, chunksize=None, iterator=False)
 
 df1['r1vgactx'].value_counts() #r1vgactx- frequency of vigorous physical activity
-response: 
+Response: 
 
 5.hardly ever or never          43224
 1.everyday                      17207
 2.more than once a week          5003
 4.one to three times a month     3584
 3.once a week                    2599
+
+round(df1['r1vgactx'].value_counts()/len(df1)*100,2)
+Response: 
+5.hardly ever or never          59.82
+1.everyday                      23.81
+2.more than once a week          6.92
+4.one to three times a month     4.96
+3.once a week                    3.60
+
+by gender analysis 
+
+pd.crosstab(df1.r1vgactx,df1.ragender, normalize='index')\
+    .round(2)*100
+
+Response:
+      	1.man	2.woman
+r1vgactx		
+1.everyday	55.0	45.0
+2.more than once a week	52.0	48.0
+3.once a week	49.0	51.0
+4.one to three times a month	45.0	55.0
+5.hardly ever or never	35.0	65.0
